@@ -13,6 +13,9 @@ ProductImage.allImages = [];
 
 var clickCount = 0;
 
+//These are for the chart
+var productLabels = ['Bag', 'Banana', 'Bathroom', 'Boots', 'breakfast.jpg', 'Bubblegum', 'Chair', 'Cthulhu', 'Dog-Duck', 'Dragon', 'Pen', 'Pet-sweep', 'Scissors', 'Shark', 'Sweep', 'Tautaun', 'Unicorn', 'USB', 'Water-Can', 'Wine-glass'];
+
 
 // creates the productImage, and runs the operations within the constructor
 new ProductImage('/img/bag.jpg', 'Bag');
@@ -45,12 +48,18 @@ var leftImage = document.getElementById('left-img');
 var centerImage = document.getElementById('center-img');
 var rightImage = document.getElementById('right-img');
 
+// Our Generate Random Image function
 function generateRandomImgs(){
   var leftIndex = Math.floor(Math.random() * ProductImage.allImages.length);
   var centerIndex = Math.floor(Math.random() * ProductImage.allImages.length);
   var rightIndex = Math.floor(Math.random() * ProductImage.allImages.length);
 
-  while (rightIndex & centerIndex === leftIndex){
+  // To render different images per click
+
+  while (leftIndex === centerIndex){
+    centerIndex = Math.floor(Math.random() * ProductImage.allImages.length);
+  }
+  while (rightIndex === centerIndex || rightIndex === leftIndex){
     rightIndex = Math.floor(Math.random() * ProductImage.allImages.length);
   }
 
@@ -89,12 +98,149 @@ imgContainer.addEventListener('click', function (event) {
 
   } else if (clickCount === 5){
     displayList();
+
+    var votesByProduct = [];
+    console.log(votesByProduct);
+    var timesProductsAreShown = [];
+    console.log(timesProductsAreShown);
+
+
+    for (var i = 0; i<ProductImage.allImages.length; i++){
+      votesByProduct.push(ProductImage.allImages[i].timesClicked);
+    }
+
+    for (var j = 0; j <ProductImage.allImages.length; j++){
+      timesProductsAreShown.push(ProductImage.allImages[j].timesShown);
+    }
+
+
+
+
+    // imgContainer.removeEventListener('click');
+    //Enables us to draw 2dimensional shapes using the ctx variable
+    //This is an object constructor from chart.js
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: productLabels,
+        datasets: [{
+          label: '# of Votes',
+          data: votesByProduct,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(243, 221, 221, 0.2)',
+            'rgba(168, 192, 244, 0.2)',
+            'rgba(137, 250, 248, 0.47)',
+            'rgba(117, 239, 61, 0.47)',
+            'rgba(239, 233, 61, 0.47)',
+            'rgba(96, 138, 115, 0.47)',
+            'rgba(224, 50, 143, 0.47)',
+            'rgba(26, 3, 236, 0.47)',
+            'rgba(3, 96, 236, 0.47)',
+            'rgba(238, 49, 32, 0.87)',
+            'rgba(32, 238, 49, 0.87)',
+            'rgba(152, 32, 238, 0.87)',
+            'rgba(83, 134, 227, 0.72)',
+            'rgba(59, 236, 180, 0.61)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(243, 221, 221, 1)',
+            'rgba(168, 192, 244, 1)',
+            'rgba(137, 250, 248, 1)',
+            'rgba(117, 239, 61, 1)',
+            'rgba(239, 233, 61, 1)',
+            'rgba(96, 138, 115, 1)',
+            'rgba(224, 50, 143, 1)',
+            'rgba(26, 3, 236, 1)',
+            'rgba(3, 96, 236, 1)',
+            'rgba(238, 49, 32, 1)',
+            'rgba(32, 238, 49, 1)',
+            'rgba(152, 32, 238, 1)',
+            'rgba(83, 134, 227, 1)',
+            'rgba(59, 236, 180, 1)'
+          ],
+          borderWidth: 1
+        },
+        {
+          label: 'Times Shown',
+          data: timesProductsAreShown,
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(243, 221, 221, 1)',
+            'rgba(168, 192, 244, 1)',
+            'rgba(137, 250, 248, 1)',
+            'rgba(117, 239, 61, 1)',
+            'rgba(239, 233, 61, 1)',
+            'rgba(96, 138, 115, 1)',
+            'rgba(224, 50, 143, 1)',
+            'rgba(26, 3, 236, 1)',
+            'rgba(3, 96, 236, 1)',
+            'rgba(238, 49, 32, 1)',
+            'rgba(32, 238, 49, 1)',
+            'rgba(152, 32, 238, 1)',
+            'rgba(83, 134, 227, 1)',
+            'rgba(59, 236, 180, 1)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(243, 221, 221, 0.2)',
+            'rgba(168, 192, 244, 0.2)',
+            'rgba(137, 250, 248, 0.47)',
+            'rgba(117, 239, 61, 0.47)',
+            'rgba(239, 233, 61, 0.47)',
+            'rgba(96, 138, 115, 0.47)',
+            'rgba(224, 50, 143, 0.47)',
+            'rgba(26, 3, 236, 0.47)',
+            'rgba(3, 96, 236, 0.47)',
+            'rgba(238, 49, 32, 0.87)',
+            'rgba(32, 238, 49, 0.87)',
+            'rgba(152, 32, 238, 0.87)',
+            'rgba(83, 134, 227, 0.72)',
+            'rgba(59, 236, 180, 0.61)'
+          ],
+          borderWidth: 1
+        }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+
     // clickCount=0;
   }
   console.log(event.target);
-  // let numberOfVotes = 5;
-  // if event.target <= numberOfVotes
-  // then
+
   //displayList();
   //the actual item that was clicked
 
@@ -113,3 +259,4 @@ function displayList(){
   console.log(listElement);
 
 }
+
