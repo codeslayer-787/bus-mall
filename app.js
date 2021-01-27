@@ -11,35 +11,48 @@ function ProductImage(image, name){
 }
 ProductImage.allImages = [];
 
+var resultsFromLocalStorage = localStorage.getItem('votes');
+var votesAsAnArray = JSON.parse(resultsFromLocalStorage);
+// If the storage is null call the function to make new products.
+
+
+console.log(resultsFromLocalStorage);
+ProductImage.allImages = votesAsAnArray || [];
+
 var clickCount = 0;
 
 //These are for the chart
 var productLabels = ['Bag', 'Banana', 'Bathroom', 'Boots', 'breakfast.jpg', 'Bubblegum', 'Chair', 'Cthulhu', 'Dog-Duck', 'Dragon', 'Pen', 'Pet-sweep', 'Scissors', 'Shark', 'Sweep', 'Tautaun', 'Unicorn', 'USB', 'Water-Can', 'Wine-glass'];
 
-
+// wrap these in a function.  If votesAsAnArray is null, call this function.
+function noVotes(){
 // creates the productImage, and runs the operations within the constructor
-new ProductImage('/img/bag.jpg', 'Bag');
-new ProductImage('/img/banana.jpg', 'Banana');
-new ProductImage('/img/bathroom.jpg', 'Bathroom');
-new ProductImage('/img/boots.jpg', 'Boots');
-new ProductImage('/img/breakfast.jpg', 'Breakfast');
-new ProductImage('/img/bubblegum.jpg', 'Bubblegum');
-new ProductImage('/img/chair.jpg', 'Chair');
-new ProductImage('/img/cthulhu.jpg', 'Cthuluhu');
-new ProductImage('/img/dog-duck.jpg', 'Dog-Duck');
-new ProductImage('/img/dragon.jpg', 'Dragon');
-new ProductImage('/img/pen.jpg', 'Pen');
-new ProductImage('/img/pet-sweep.jpg', 'Pet-Sweep');
-new ProductImage('/img/scissors.jpg', 'Scissors');
-new ProductImage('/img/shark.jpg', 'Shark');
-new ProductImage('/img/sweep.png', 'Sweep');
-new ProductImage('/img/tauntaun.jpg', 'Tauntaun');
-new ProductImage('/img/unicorn.jpg', 'Unicorn');
-new ProductImage('/img/usb.gif', 'USB');
-new ProductImage('/img/water-can.jpg', 'Water-Can');
-new ProductImage('/img/wine-glass.jpg', 'Wine-Glass');
+  new ProductImage('img/bag.jpg', 'Bag');
+  new ProductImage('img/banana.jpg', 'Banana');
+  new ProductImage('img/bathroom.jpg', 'Bathroom');
+  new ProductImage('img/boots.jpg', 'Boots');
+  new ProductImage('img/breakfast.jpg', 'Breakfast');
+  new ProductImage('img/bubblegum.jpg', 'Bubblegum');
+  new ProductImage('img/chair.jpg', 'Chair');
+  new ProductImage('img/cthulhu.jpg', 'Cthuluhu');
+  new ProductImage('img/dog-duck.jpg', 'Dog-Duck');
+  new ProductImage('img/dragon.jpg', 'Dragon');
+  new ProductImage('img/pen.jpg', 'Pen');
+  new ProductImage('img/pet-sweep.jpg', 'Pet-Sweep');
+  new ProductImage('img/scissors.jpg', 'Scissors');
+  new ProductImage('img/shark.jpg', 'Shark');
+  new ProductImage('img/sweep.png', 'Sweep');
+  new ProductImage('img/tauntaun.jpg', 'Tauntaun');
+  new ProductImage('img/unicorn.jpg', 'Unicorn');
+  new ProductImage('img/usb.gif', 'USB');
+  new ProductImage('img/water-can.jpg', 'Water-Can');
+  new ProductImage('img/wine-glass.jpg', 'Wine-Glass');
 
-console.log(ProductImage.allImages);
+  console.log(ProductImage.allImages);
+}
+if (resultsFromLocalStorage === null) {
+  noVotes();
+}
 
 // select elements from my HTML to render the images
 
@@ -84,7 +97,7 @@ function renderImages(leftImg, centerImg, rightImg){
 var randomProducts = generateRandomImgs();
 renderImages(randomProducts[0], randomProducts[1], randomProducts[2]);
 
-imgContainer.addEventListener('click', function (event) {
+imgContainer.addEventListener('click', function listener(event) {
   clickCount++;
   if (clickCount !== 5){
     for (var i = 0; i < ProductImage.allImages.length; i++) {
@@ -112,6 +125,9 @@ imgContainer.addEventListener('click', function (event) {
     for (var j = 0; j <ProductImage.allImages.length; j++){
       timesProductsAreShown.push(ProductImage.allImages[j].timesShown);
     }
+    var votesAsAString = JSON.stringify(ProductImage.allImages);
+
+    localStorage.setItem('votes', votesAsAString);
 
     // imgContainer.removeEventListener('click');
     //Enables us to draw 2dimensional shapes using the ctx variable
@@ -233,9 +249,10 @@ imgContainer.addEventListener('click', function (event) {
         }
       }
     });
-
+    imgContainer.removeEventListener('click', listener);
     // clickCount=0;
   }
+
   console.log(event.target);
 
   //displayList();
@@ -257,3 +274,12 @@ function displayList(){
 
 }
 
+function storeObject(obj){
+  var stringify = JSON.stringify(obj);
+  localStorage.setItem('votes', stringify);
+}
+
+function fetchObject(key) {
+  var stringify = localStorage.getItem(key);
+  return JSON.parse(stringify);
+}
