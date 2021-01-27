@@ -113,9 +113,6 @@ imgContainer.addEventListener('click', function (event) {
       timesProductsAreShown.push(ProductImage.allImages[j].timesShown);
     }
 
-
-
-
     // imgContainer.removeEventListener('click');
     //Enables us to draw 2dimensional shapes using the ctx variable
     //This is an object constructor from chart.js
