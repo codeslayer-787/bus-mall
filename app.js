@@ -99,7 +99,7 @@ renderImages(randomProducts[0], randomProducts[1], randomProducts[2]);
 
 imgContainer.addEventListener('click', function listener(event) {
   clickCount++;
-  if (clickCount !== 5){
+  if (clickCount !== 20){
     for (var i = 0; i < ProductImage.allImages.length; i++) {
       if (event.target.src.includes(ProductImage.allImages[i].image)) {
         ProductImage.allImages[i].timesClicked++;
@@ -109,7 +109,7 @@ imgContainer.addEventListener('click', function listener(event) {
     var newProducts = generateRandomImgs();
     renderImages(newProducts[0], newProducts[1], newProducts[2]);
 
-  } else if (clickCount === 5){
+  } else if (clickCount === 20){
     displayList();
 
     var votesByProduct = [];

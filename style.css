@@ -4,8 +4,12 @@ header {
   flex-direction: row;
   font-family:Arial, Helvetica, sans-serif;
 }
+body {
+  background-color: blanchedalmond;
+}
+
 #headerImg {
-  height: 80px;
+  height: 100px;
   width: 175px;
 }
 .row {
